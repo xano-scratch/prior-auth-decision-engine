@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prior Authorization Decision Engine · XanoTS template</title>
+    <meta
+      name="description"
+      content="A governed Xano backend that applies one versioned set of medical-necessity rules, so every intake portal and provider tool gets the same auditable prior-authorization decision."
+    />
+    <style>
+      :root {
+        --bg: #0a0b0d;
+        --panel: #131519;
+        --panel-2: #171a1f;
+        --border: #262a31;
+        --text: #e7e9ee;
+        --muted: #9aa2ad;
+        --accent: #5b8cff;
+        --accent-weak: rgba(91, 140, 255, 0.12);
+        --green: #34d399;
+        --red: #f87171;
+        --amber: #fbbf24;
+        --radius: 14px;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: radial-gradient(1200px 600px at 50% -10%, #16202f 0%, var(--bg) 55%);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 940px; margin: 0 auto; padding: 0 20px; }
+      a { color: var(--accent); text-decoration: none; }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.9em;
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 1px 6px;
+      }
+      /* Hero */
+      header { padding: 72px 0 20px; text-align: center; }
+      .badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 22px; }
+      .badge {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        padding: 5px 11px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--muted);
+      }
+      .badge.accent { color: var(--accent); border-color: rgba(91, 140, 255, 0.35); background: var(--accent-weak); }
+      h1 { font-size: 40px; line-height: 1.1; margin: 0 0 14px; letter-spacing: -0.02em; }
+      .tagline { font-size: 18px; color: var(--muted); max-width: 680px; margin: 0 auto 20px; }
+      .meta { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 26px; }
+      .meta strong { color: var(--text); }
+      .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 11px 20px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+      }
+      .btn:active { transform: translateY(1px); }
+      .btn.primary { background: var(--accent); color: #08111f; }
+      .btn.primary:hover { background: #78a1ff; }
+      .btn.ghost { background: transparent; border-color: var(--border); color: var(--text); }
+      .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+      /* Screenshot */
+      .shot { margin: 40px auto 8px; }
+      .shot img {
+        width: 100%;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+        display: block;
+      }
+      .shot .cap { text-align: center; color: var(--muted); font-size: 13px; margin-top: 12px; }
+      /* Sections */
+      section { padding: 34px 0; border-top: 1px solid var(--border); margin-top: 30px; }
+      section:first-of-type { border-top: none; }
+      h2 { font-size: 22px; margin: 0 0 18px; letter-spacing: -0.01em; }
+      .grid { display: grid; gap: 14px; grid-template-columns: repeat(2, 1fr); }
+      @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 32px; } }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+      }
+      .card h3 { margin: 0 0 6px; font-size: 15px; }
+      .card p { margin: 0; color: var(--muted); font-size: 14px; }
+      /* API table */
+      table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+      th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+      td .verb { font-family: ui-monospace, monospace; font-weight: 700; font-size: 12px; }
+      .verb.get { color: var(--green); }
+      .verb.post { color: var(--amber); }
+      td code { background: transparent; border: none; padding: 0; color: var(--text); }
+      /* Use block */
+      pre {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px 18px;
+        overflow-x: auto;
+        font-size: 13.5px;
+        line-height: 1.7;
+        color: #d7dbe2;
+      }
+      .note {
+        background: var(--accent-weak);
+        border: 1px solid rgba(91, 140, 255, 0.3);
+        border-radius: 10px;
+        padding: 14px 16px;
+        color: #cdd8f2;
+        font-size: 14px;
+      }
+      footer { padding: 40px 0 60px; color: var(--muted); font-size: 13px; text-align: center; border-top: 1px solid var(--border); margin-top: 30px; }
+      ul.screens { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); }
+      @media (max-width: 680px) { ul.screens { grid-template-columns: 1fr; } }
+      ul.screens li { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+      ul.screens li b { display: block; margin-bottom: 2px; }
+      ul.screens li span { color: var(--muted); font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="badges">
+          <span class="badge accent">Play 1 · Business Logic Centralization</span>
+          <span class="badge">Healthcare payer</span>
+          <span class="badge">XanoTS template</span>
+        </div>
+        <h1>Prior Authorization Decision Engine</h1>
+        <p class="tagline">
+          One governed decision service every intake portal and provider tool calls, so medical-necessity
+          rules live in one auditable place instead of three copies.
+        </p>
+        <p class="meta"><strong>8</strong> tables · <strong>10</strong> APIs · <strong>1</strong> shared function</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="https://github.com/xano-scratch/prior-auth-decision-engine">View on GitHub</a>
+          <a class="btn ghost" href="#use">Use this template</a>
+        </div>
+      </header>
+
+      <div class="shot">
+        <img
+          src="screenshot.png"
+          alt="The decision view: a denied MRI request showing the rule that fired and the ruleset version applied"
+        />
+        <p class="cap">The decision view: the determination, the exact rule that fired, and the ruleset version applied.</p>
+      </div>
+
+      <section>
+        <h2>What it demonstrates</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Rules in one governed layer</h3>
+            <p>
+              A single <code>decide_request</code> function is the only path that produces a decision, so no
+              caller re-encodes its own version of the logic.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Versioned rulesets</h3>
+            <p>
+              Each procedure keeps one active criteria set and its retired ones, so a decision made under an
+              older version stays explainable.
+            </p>
+          </div>
+          <div class="card">
+            <h3>A readable decision waterfall</h3>
+            <p>
+              Rules run in order. The first that fails sets the outcome (deny or refer) and names itself;
+              passing every rule approves the request.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Append-only audit trail</h3>
+            <p>
+              Every run appends one row, never edits one, with the member, procedure, and version denormalized
+              so the trail reads on its own.
+            </p>
+          </div>
+          <div class="card">
+            <h3>API-layer RBAC, not RLS</h3>
+            <p>
+              A clinical reviewer decides; a read-only auditor may view and audit, but the decide endpoint
+              refuses it. The gate is a per-endpoint role check.
+            </p>
+          </div>
+          <div class="card">
+            <h3>One typed contract</h3>
+            <p>
+              The React frontend derives every path and request and response type from the backend defs, so a
+              schema change flows straight into the UI.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>API surface</h2>
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Path</th><th>What it enforces</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="verb post">POST</span></td><td><code>api:priorauth_authn/login</code></td><td>Verify a reviewer and mint a bearer token (public).</td></tr>
+            <tr><td><span class="verb get">GET</span></td><td><code>api:priorauth_authn/me</code></td><td>The signed-in reviewer.</td></tr>
+            <tr><td><span class="verb post">POST</span></td><td><code>api:priorauth/requests</code></td><td>Member active and procedure exists; short-circuits a non-gated procedure to approve.</td></tr>
+            <tr><td><span class="verb post">POST</span></td><td><code>api:priorauth/decide</code></td><td>Runs the governed decision. Clinical reviewer only.</td></tr>
+            <tr><td><span class="verb get">GET</span></td><td><code>api:priorauth/decisions/{request_id}</code></td><td>The decision joined to its request, member, procedure, and the rule that fired.</td></tr>
+            <tr><td><span class="verb get">GET</span></td><td><code>api:priorauth/audit</code></td><td>The append-only trail, filtered by member number and/or procedure code.</td></tr>
+            <tr><td><span class="verb get">GET</span></td><td><code>api:priorauth/criteria/{procedure_id}</code></td><td>The active ruleset with its ordered rules, and every version on record.</td></tr>
+            <tr><td><span class="verb get">GET</span></td><td><code>api:priorauth/queue</code></td><td>Requests awaiting a decision.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Frontend screens</h2>
+        <ul class="screens">
+          <li><b>Sign in</b><span>Pick a seeded reviewer role.</span></li>
+          <li><b>Queue</b><span>Pending requests, with a decide action for clinical reviewers.</span></li>
+          <li><b>New request</b><span>File a request, then run the decision.</span></li>
+          <li><b>Decision view</b><span>Outcome, the rule that fired, and the ruleset version.</span></li>
+          <li><b>Rule inspector</b><span>The active ordered rules plus the version history.</span></li>
+          <li><b>Audit trail</b><span>Search the log by member number or procedure code.</span></li>
+        </ul>
+      </section>
+
+      <section id="use">
+        <h2>Use this template</h2>
+        <p style="color: var(--muted); margin-top: -6px;">
+          Paste this to an AI coding agent (Claude Code, Cursor, and the like) to start a new Xano backend from
+          this template:
+        </p>
+        <pre>Clone https://github.com/xano-scratch/prior-auth-decision-engine and use it as the
+starting template for my Xano backend. Read the README and the xano/ defs first,
+then adapt the tables, endpoints, and decision rules to my domain. Author against
+@xanots/sdk (its llms.txt), keep the one typed api.ts contract, and ship with
+`npm install` then `npm run xano:deploy`.</pre>
+        <p style="color: var(--muted);">Or clone and deploy it as-is:</p>
+        <pre>git clone https://github.com/xano-scratch/prior-auth-decision-engine.git
+cd prior-auth-decision-engine
+npm install
+npx xanots login
+npm run xano:deploy</pre>
+      </section>
+
+      <section>
+        <h2>Live preview</h2>
+        <p class="note">
+          The build summary links a live ephemeral environment. Ephemerals auto-expire, so a shared link may
+          have stopped serving by the time you read this. The durable artifact is this repo: clone it and run
+          <code>npm run xano:deploy</code> for a fresh live URL of your own in about a minute.
+        </p>
+      </section>
+
+      <footer>
+        Built with <a href="https://www.npmjs.com/package/@xanots/sdk">XanoTS</a>. MIT licensed. A
+        proof artifact in the <code>xano-scratch</code> gallery.
+      </footer>
+    </div>
+  </body>
+</html>

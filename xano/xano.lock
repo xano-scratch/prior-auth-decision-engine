@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "objects": {
+    "app:auth": {
+      "guid": "4fe67f5a2d319eaaca7996700f27edd8",
+      "canonical": "priorauth_authn",
+      "canonical_source": "code"
+    },
+    "app:priorauth": {
+      "guid": "c39f7ca717c038ea92654809e727ed40",
+      "canonical": "priorauth",
+      "canonical_source": "code"
+    },
+    "dbo:criteria": {
+      "guid": "94bcd7ee0a6b68a7a46bce1a8b87a1d7"
+    },
+    "dbo:criteria_sets": {
+      "guid": "cd7567232b65666e104b485886e780a0"
+    },
+    "dbo:decision_log": {
+      "guid": "8020f8651b6aa0606f945085b0765f83"
+    },
+    "dbo:decisions": {
+      "guid": "2841cfb910d54157958cb9e1e304358c"
+    },
+    "dbo:members": {
+      "guid": "73429aed6abe43fb041daf0a4c6256a3"
+    },
+    "dbo:procedures": {
+      "guid": "106fc2d67c373ab73ed64717d5dbf8ea"
+    },
+    "dbo:requests": {
+      "guid": "3b4fdf26f0e175282161e7db7ba81053"
+    },
+    "dbo:reviewers": {
+      "guid": "c01d7368d11bbdff2d42dd2aa70bd62f"
+    },
+    "function:decide_request": {
+      "guid": "b525ead9f046af3bcf73e044123ca92f"
+    },
+    "query:auth|GET|me": {
+      "guid": "bfd70d24f92356209c72088852ec320e"
+    },
+    "query:auth|POST|login": {
+      "guid": "d39d74f907baeb484e9c93358362998a"
+    },
+    "query:priorauth|GET|audit": {
+      "guid": "5caf16ba8e9a995056bbd26efd92919e"
+    },
+    "query:priorauth|GET|criteria/{procedure_id}": {
+      "guid": "8b285d0de6a14b879fe3674e9c614d21"
+    },
+    "query:priorauth|GET|decisions/{request_id}": {
+      "guid": "b01b7d1d38257496664a3043ba7bfa24"
+    },
+    "query:priorauth|GET|members": {
+      "guid": "6c8ffcd91e22e0cbe703f5a70ffb02ee"
+    },
+    "query:priorauth|GET|procedures": {
+      "guid": "eed86cf39297ccfb6241149b5d4f0dff"
+    },
+    "query:priorauth|GET|queue": {
+      "guid": "c0d38f941293d8a711319b2d527173dc"
+    },
+    "query:priorauth|POST|decide": {
+      "guid": "c1e402668363bea897a551f107f0d822"
+    },
+    "query:priorauth|POST|requests": {
+      "guid": "fa7893a2866c365a7f9075ea0c0f60a5"
+    }
+  }
+}
